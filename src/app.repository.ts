@@ -17,4 +17,7 @@ export class AppRepository {
     const newPodcast = new this.podcastModel(podcast);
     return newPodcast.save();
   }
+  async addPodcasts(podcasts: Podcast[]) {
+    return this.podcastModel.insertMany(podcasts);
+  }
 }

@@ -29,4 +29,9 @@ export class AppController {
 
     return this.appService.addPodcast(podcast);
   }
+
+  @Get('/refreshpodcasts')
+  refreshPodcasts() {
+    this.appService.refreshPodcasts();
+  }
 }

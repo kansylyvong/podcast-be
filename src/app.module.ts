@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppRepository } from './app.repository';
 import { podcastSchema } from './app.model';
+import { PodcastHttpService } from './app.podcasthttpservice';
+import { HttpModule, HttpService } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -11,8 +13,9 @@ import { podcastSchema } from './app.model';
     MongooseModule.forFeature([
       { name: 'PodcastModel', schema: podcastSchema },
     ]),
+    HttpModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppRepository],
+  providers: [AppService, AppRepository, PodcastHttpService],
 })
 export class AppModule {}
