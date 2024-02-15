@@ -24,12 +24,17 @@ export class AppService {
       starRating: podcast.starRating,
       host: podcast.host,
       level: podcast.level,
+      played: podcast.played,
     }));
   }
 
   addPodcast(podcast: Podcast): string {
     this.appRepository.addPodcast(podcast);
     return 'Podcast added successfully';
+  }
+  updatePodcast(podcast: Podcast): string {
+    this.appRepository.updatePodcast(podcast);
+    return 'Podcast updated successfully';
   }
   async refreshPodcasts() {
     const response = await this.podcastHttpService
@@ -50,11 +55,12 @@ export class AppService {
         description: podcast.description,
         link: podcast.link,
         pubDate: podcast.pubDate,
-        enclosure: podcast.enclosure["@_url"],
-        audioType: podcast.enclosure["@_type"],
+        enclosure: podcast.enclosure['@_url'],
+        audioType: podcast.enclosure['@_type'],
         starRating: podcast.starRating,
         host: podcast.description.slice(0, podcast.description.indexOf('.')),
         level: podcast.title.slice(0, podcast.title.search(':')),
+        played: false,
       };
       podcastModels.push(podcastModel);
     });

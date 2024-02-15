@@ -20,4 +20,7 @@ export class AppRepository {
   async addPodcasts(podcasts: Podcast[]) {
     return this.podcastModel.insertMany(podcasts);
   }
+  updatePodcast(podcast: Podcast) {
+    return this.podcastModel.updateOne({ title: podcast.title }, podcast);
+  }
 }
