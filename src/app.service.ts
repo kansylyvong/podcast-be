@@ -66,4 +66,13 @@ export class AppService {
     });
     await this.appRepository.addPodcasts(podcastModels);
   }
+
+  login(username: string, password: string): any {
+    if (username === 'admin' && password === 'admin') {
+      //send json response of login successful
+      return { message: 'Login successful' };
+    } else {
+      return 'Login failed';
+    }
+  }
 }

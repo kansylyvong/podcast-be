@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { Podcast, PodcastRequestBody } from './app.model';
 
@@ -56,5 +63,22 @@ export class AppController {
   @Get('/refreshpodcasts')
   refreshPodcasts() {
     this.appService.refreshPodcasts();
+  }
+
+  @Post('/login')
+  login(
+    @Req() request: Request & { body: { username: string; password: string } }
+  ): any {
+    console.log(request.body);
+    const result = this.appService.login(
+      request.body.username,
+      request.body.password,
+    );
+
+    if (result) {
+      return result;
+    } else {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
   }
 }
