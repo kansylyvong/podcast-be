@@ -1,3 +1,4 @@
+import { create } from 'domain';
 import { Schema, model } from 'mongoose';
 
 export interface Podcast {
@@ -44,7 +45,28 @@ export const podcastSchema = new Schema<Podcast>({
   played: Boolean,
 });
 
+export interface User {
+  username: string;
+  password: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  created: Date;
+  lastUpdate: Date;
+}
+
+export const UserSchema = new Schema<User>({
+  username: String,
+  password: String,
+  email: String,
+  firstName: String,
+  lastName: String,
+  created: Date,
+  lastUpdate: Date,
+});
+
 export const PodcastModel = model<PodcastDocument>(
   'PodcastData',
   podcastSchema,
 );
+export const UserModel = model<User>('UserData', UserSchema);

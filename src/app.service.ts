@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { AppRepository } from './app.repository';
 import { Podcast } from './app.model';
 import { PodcastHttpService } from './app.podcasthttpservice';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, prettier/prettier, @typescript-eslint/no-var-requires
-const { XMLParser, XMLBuilder, XMLValidator} = require("fast-xml-parser");
+import * as bcrypt from 'bcrypt';
+import { XMLParser } from 'fast-xml-parser';
 
 @Injectable()
 export class AppService {
@@ -32,7 +32,7 @@ export class AppService {
     this.appRepository.addPodcast(podcast);
     return 'Podcast added successfully';
   }
-  updatePodcast(podcast: Podcast): string {
+  async updatePodcast(podcast: Podcast): Promise<string> {
     this.appRepository.updatePodcast(podcast);
     return 'Podcast updated successfully';
   }
@@ -74,5 +74,23 @@ export class AppService {
     } else {
       return 'Login failed';
     }
+  }
+  async createUser(
+    username: string,
+    password: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+  ) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    this.appRepository.createUser(
+      username,
+      hashedPassword,
+      email,
+      firstName,
+      lastName,
+      new Date(),
+      new Date(),
+    );
   }
 }

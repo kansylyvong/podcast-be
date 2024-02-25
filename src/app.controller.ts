@@ -43,9 +43,9 @@ export class AppController {
   }
   @UseGuards(JwtGuard)
   @Post('/updatepodcast')
-  updatePodcast(
+  async updatePodcast(
     @Req() request: Request & { body: PodcastRequestBody },
-  ): string {
+  ): Promise<string> {
     console.log(request.body);
     const podcast = {
       title: request.body.title,
@@ -61,7 +61,7 @@ export class AppController {
       played: request.body.played,
     };
 
-    return this.appService.updatePodcast(podcast);
+    return await this.appService.updatePodcast(podcast);
   }
   @UseGuards(JwtGuard)
   @Get('/refreshpodcasts')
@@ -71,7 +71,7 @@ export class AppController {
 
   @Post('/login')
   login(
-    @Req() request: Request & { body: { username: string; password: string } }
+    @Req() request: Request & { body: { username: string; password: string } },
   ): any {
     console.log(request.body);
     const result = this.appService.login(
@@ -89,5 +89,27 @@ export class AppController {
     } else {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
+  }
+  @Post('/createuser')
+  createUser(
+    @Req()
+    request: Request & {
+      body: {
+        username: string;
+        password: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+      };
+    },
+  ) {
+    console.log(request.body);
+    this.appService.createUser(
+      request.body.username,
+      request.body.password,
+      request.body.email,
+      request.body.firstName,
+      request.body.lastName,
+    );
   }
 }

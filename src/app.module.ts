@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppRepository } from './app.repository';
-import { podcastSchema } from './app.model';
+import { UserSchema, podcastSchema } from './app.model';
 import { PodcastHttpService } from './app.podcasthttpservice';
 import { HttpModule, HttpService } from '@nestjs/axios';
 
@@ -12,6 +12,7 @@ import { HttpModule, HttpService } from '@nestjs/axios';
     MongooseModule.forRoot('mongodb://localhost:27017/Podcast'),
     MongooseModule.forFeature([
       { name: 'PodcastModel', schema: podcastSchema },
+      { name: 'UserModel', schema: UserSchema },
     ]),
     HttpModule,
   ],
