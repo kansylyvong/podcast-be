@@ -28,12 +28,12 @@ export class AppService {
     }));
   }
 
-  addPodcast(podcast: Podcast): string {
-    this.appRepository.addPodcast(podcast);
+  async addPodcast(podcast: Podcast): Promise<string> {
+    await this.appRepository.addPodcast(podcast);
     return 'Podcast added successfully';
   }
   async updatePodcast(podcast: Podcast): Promise<string> {
-    this.appRepository.updatePodcast(podcast);
+    await this.appRepository.updatePodcast(podcast);
     return 'Podcast updated successfully';
   }
   async refreshPodcasts() {
@@ -84,7 +84,7 @@ export class AppService {
     lastName: string,
   ) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    this.appRepository.createUser(
+    await this.appRepository.createUser(
       username,
       hashedPassword,
       email,

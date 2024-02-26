@@ -19,11 +19,13 @@ export class AppController {
   @UseGuards(JwtGuard)
   @Get('/podcasts')
   async getPodcasts(): Promise<Podcast[]> {
-    return this.appService.getPodcasts();
+    return await this.appService.getPodcasts();
   }
   @UseGuards(JwtGuard)
   @Post('/addpodcasts')
-  addPodcast(@Req() request: Request & { body: PodcastRequestBody }): string {
+  async addPodcast(
+    @Req() request: Request & { body: PodcastRequestBody },
+  ): Promise<string> {
     console.log(request.body);
     const podcast = {
       title: request.body.title,
@@ -39,7 +41,7 @@ export class AppController {
       played: request.body.played,
     };
 
-    return this.appService.addPodcast(podcast);
+    return await this.appService.addPodcast(podcast);
   }
   @UseGuards(JwtGuard)
   @Post('/updatepodcast')
@@ -65,8 +67,8 @@ export class AppController {
   }
   @UseGuards(JwtGuard)
   @Get('/refreshpodcasts')
-  refreshPodcasts() {
-    this.appService.refreshPodcasts();
+  async refreshPodcasts() {
+    await this.appService.refreshPodcasts();
   }
 
   @Post('/login')
@@ -92,7 +94,7 @@ export class AppController {
     }
   }
   @Post('/createuser')
-  createUser(
+  async createUser(
     @Req()
     request: Request & {
       body: {
@@ -105,7 +107,7 @@ export class AppController {
     },
   ) {
     console.log(request.body);
-    this.appService.createUser(
+    await this.appService.createUser(
       request.body.username,
       request.body.password,
       request.body.email,

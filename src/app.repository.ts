@@ -11,18 +11,18 @@ export class AppRepository {
   ) {}
 
   async getPodcasts() {
-    return this.podcastModel.find().exec();
+    return await this.podcastModel.find().exec();
   }
 
   async addPodcast(podcast: Podcast) {
     const newPodcast = new this.podcastModel(podcast);
-    return newPodcast.save();
+    return await newPodcast.save();
   }
   async addPodcasts(podcasts: Podcast[]) {
-    return this.podcastModel.insertMany(podcasts);
+    return await this.podcastModel.insertMany(podcasts);
   }
   async updatePodcast(podcast: Podcast) {
-    return this.podcastModel.updateOne({ title: podcast.title }, podcast);
+    return await this.podcastModel.updateOne({ title: podcast.title }, podcast);
   }
   async createUser(
     username: string,
@@ -42,7 +42,7 @@ export class AppRepository {
       created,
       lastUpdate,
     });
-    return user.save();
+    return await user.save();
   }
   async findUser(username: string) {
     return this.userModel.findOne({ username }).exec();
