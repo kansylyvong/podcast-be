@@ -44,4 +44,7 @@ export class AppRepository {
     });
     return user.save();
   }
+  async findUser(username: string) {
+    return this.userModel.findOne({ username }).exec();
+  }
 }

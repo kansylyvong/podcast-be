@@ -67,13 +67,14 @@ export class AppService {
     await this.appRepository.addPodcasts(podcastModels);
   }
 
-  login(username: string, password: string): any {
-    if (username === 'admin' && password === 'admin') {
-      //send json response of login successful
-      return { message: 'Login successful' };
-    } else {
-      return 'Login failed';
-    }
+  async login(username: string, password: string): Promise<any> {
+    return await this.appRepository.findUser(username).then(async (user) => {
+      if (user && (await bcrypt.compare(password, user.password))) {
+        return user;
+      } else {
+        return false;
+      }
+    });
   }
   async createUser(
     username: string,

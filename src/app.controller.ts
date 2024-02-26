@@ -70,16 +70,17 @@ export class AppController {
   }
 
   @Post('/login')
-  login(
+  async login(
     @Req() request: Request & { body: { username: string; password: string } },
-  ): any {
+  ): Promise<any> {
     console.log(request.body);
-    const result = this.appService.login(
+    const result = await this.appService.login(
       request.body.username,
       request.body.password,
     );
 
     if (result) {
+      console.log('result', result);
       const token = sign(
         { username: request.body.username },
         'fake secret key for now',
